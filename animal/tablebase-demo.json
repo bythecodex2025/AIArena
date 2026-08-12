@@ -1,0 +1,1 @@
+{"format":"animal-shogi-tablebase-v1","generatedAt":"2026-08-12T05:41:17.609Z","stateCount":2,"counts":{"win":1,"draw":0,"loss":1},"entries":{"P1|0.2L.0.0.1L.0.0.0.0.0.0.0|000|000|-":{"outcome":1,"dtm":1},"P2|0.1L.0.0.0.0.0.0.0.0.0.0|000|000|-":{"outcome":-1,"dtm":0}}}

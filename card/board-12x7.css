@@ -1,0 +1,4 @@
+.board { grid-template-columns:repeat(7,1fr); gap:3px; }
+.board-wrap { width:min(470px,82vw); }
+.cell { font-size:19px; }
+@media(max-width:620px) { .board-wrap { width:min(420px,94vw); } .cell { font-size:16px; } }

@@ -1,0 +1,12 @@
+{
+  "name": "animal-shogi-ai-lab",
+  "version": "5.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "benchmark": "node benchmark.mjs",
+    "tablebase:sample": "node tablebase-generator.mjs --demo --max-states=100 --output=tablebase-demo.json",
+    "tablebase:full": "node --max-old-space-size=32768 tablebase-generator.mjs --full"
+  }
+}
