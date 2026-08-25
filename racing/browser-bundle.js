@@ -536,6 +536,8 @@ function setup() {
   $("watchRace").onclick = () => startVisibleRace("watch");
   $("stopRace").onclick = () => stopVisibleRace("세션을 중지했습니다.");
   $("newTrack").onclick = newTrack;
+  $("uploadCode").onclick = () => $("fileInput").click();
+  $("fileInput").onchange = loadCodeFile;
   $("resetCode").onclick = resetCode;
   $("loadStrongCode").onclick = loadStrongCode;
   $("copySpec").onclick = copySpec;
@@ -937,6 +939,23 @@ function resetCode() {
   $("editor").value = STARTER_AI_CODE;
   storeCode(STARTER_AI_CODE);
   setCodeMessage("예제 AI를 복원했습니다.", "ok");
+}
+
+async function loadCodeFile(event) {
+  const file = event.target.files?.[0];
+  event.target.value = "";
+  if (!file) return;
+  if (!/\.(js|txt)$/i.test(file.name)) return setCodeMessage(".js 또는 .txt 파일을 선택하세요.", "error");
+  if (file.size > CUSTOM_AI_LIMITS.codeBytes) return setCodeMessage("AI 파일은 50KB 이하여야 합니다.", "error");
+  try {
+    const code = await file.text();
+    validateCustomCode(code);
+    $("editor").value = code;
+    storeCode(code);
+    setCodeMessage(`${file.name} 파일을 불러왔습니다.`, "ok");
+  } catch (error) {
+    setCodeMessage(error.message || "AI 파일을 읽지 못했습니다.", "error");
+  }
 }
 
 function loadStrongCode() {

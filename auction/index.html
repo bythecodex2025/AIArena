@@ -6,6 +6,7 @@
   <meta name="description" content="크레딧과 영향력으로 우주 유물을 낙찰받는 경매 전략 AI 게임 Starlight Auction">
   <title>Starlight Auction · AI 경매 전략</title>
   <link rel="stylesheet" href="styles.css?v=20260813-auction-v1">
+  <link rel="stylesheet" href="../arena-kit/ai-code-actions.css?v=20260825">
 </head>
 <body>
   <main class="shell">
@@ -73,15 +74,15 @@
       </article>
 
       <article class="panel code-panel">
-        <div class="section-head"><small>BUILD YOUR BIDDER</small><h2>내 AI로 밤시장에 참가</h2><p><code>chooseAction(state, me)</code>가 현재 <code>legalActions</code> 중 하나를 반환하게 만드세요.</p></div>
+        <div class="section-head"><small>02 · AI CODE ARENA</small><h2>내 AI로 밤시장에 참가</h2><p><code>chooseAction(state, me)</code>가 현재 <code>legalActions</code> 중 하나를 반환하게 만드세요.</p></div>
         <div class="editor-bar"><b id="editorFileName">my-auction-ai.js</b><span>JavaScript · 50KB · 500ms/행동</span></div>
         <textarea id="editor" spellcheck="false" aria-label="Starlight Auction 사용자 AI 코드"></textarea>
-        <div class="editor-actions">
+        <div class="editor-actions ai-code-actions" aria-label="AI 코드 도구">
           <input id="fileInput" type="file" accept=".js,.txt" hidden>
-          <button id="uploadCode">파일 불러오기</button>
+          <button id="uploadCode">AI 파일 불러오기</button>
           <button id="resetCode">예제 복원</button>
           <button id="copySpec">프롬프트 복사</button>
-          <button id="testCode" class="primary">1행동 검증</button>
+          <button id="testCode" class="primary">코드 검증</button>
         </div>
         <p id="codeMessage" class="code-message">신뢰할 수 없는 코드나 비밀번호·토큰이 포함된 코드는 실행하지 마세요.</p>
       </article>

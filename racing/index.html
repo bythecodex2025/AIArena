@@ -6,6 +6,7 @@
   <meta name="description" content="초당 15틱 고정 물리와 전방 도로 센서로 주행 AI를 만드는 AIArena 레이싱 게임">
   <title>Vector Racing · 15 TPS AI Arena</title>
   <link rel="stylesheet" href="styles.css?v=1">
+  <link rel="stylesheet" href="../arena-kit/ai-code-actions.css?v=20260825">
 </head>
 <body>
   <main class="arena-shell">
@@ -68,14 +69,18 @@
 
     <section class="lab-grid">
       <article class="panel editor-wrap">
-        <span class="eyebrow">PROGRAM THE DRIVER</span>
+        <span class="eyebrow">02 · AI CODE ARENA</span>
         <h2>내 주행 AI</h2>
         <textarea id="editor" spellcheck="false" aria-label="Vector Racing 사용자 AI 코드"></textarea>
-        <div class="toolbar">
+        <div class="toolbar ai-code-actions" aria-label="AI 코드 도구">
+          <input id="fileInput" type="file" accept=".js,.txt,text/javascript,text/plain" hidden>
+          <button id="uploadCode">AI 파일 불러오기</button>
           <button id="resetCode">예제 복원</button>
-          <button id="loadStrongCode">V5 압도 AI 불러오기</button>
           <button id="copySpec">프롬프트 복사</button>
-          <button id="testCode">1틱 검증</button>
+          <button id="testCode">코드 검증</button>
+        </div>
+        <div class="toolbar editor-extras">
+          <button id="loadStrongCode">V5 압도 AI 불러오기</button>
         </div>
         <p class="limits">JavaScript · 50KB · 최대 500ms/틱 · 지속 격리 Worker · 동기 반환</p>
         <p id="codeMessage" class="code-message"></p>
@@ -119,6 +124,6 @@
 
   <div id="resultModal" class="modal" hidden><div class="modal-card result-card"><span class="eyebrow">CHEQUERED FLAG</span><h2 id="resultTitle"></h2><p id="resultReason"></p><button id="closeResult">확인</button></div></div>
   <div id="replayModal" class="modal" hidden><div class="modal-card replay-card"><div class="panel-head"><div><span class="eyebrow">RACE REPLAY</span><h2 id="replayTitle">경기 리플레이</h2></div><button id="closeReplay">닫기</button></div><canvas id="replayCanvas" width="800" height="640"></canvas><div class="replay-controls"><button id="replayToggle">재생</button><input id="replayRange" type="range" min="0" max="0" value="0"><span id="replayCounter">0 / 0</span></div></div></div>
-  <script src="browser-bundle.js?v=4"></script>
+  <script src="browser-bundle.js?v=20260825-ai-code-tools"></script>
 </body>
 </html>
