@@ -1,6 +1,6 @@
 # Starlight Auction
 
-Relay Forge의 연결·영역 전투와 완전히 다른 공개 경매·세트 수집형 AIArena 예제 게임입니다.
+연결·영역 전투와 완전히 다른 공개 경매·세트 수집형 AIArena 예제 게임입니다.
 
 ## 실행
 
