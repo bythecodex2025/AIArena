@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="초당 15틱 고정 물리와 전방 도로 센서로 주행 AI를 만드는 AIArena 레이싱 게임">
+  <title>Vector Racing · 15 TPS AI Arena</title>
+  <link rel="stylesheet" href="styles.css?v=1">
+</head>
+<body>
+  <main class="arena-shell">
+    <div class="topbar">
+      <span class="brand-kicker">AIARENA / FIXED-STEP MOTORSPORT</span>
+      <a class="back-link" href="../index.html" aria-label="AIArena 메인으로 돌아가기">← AIARENA MAIN</a>
+    </div>
+
+    <header class="hero">
+      <div>
+        <span class="eyebrow">15 TICKS · 15 ACTIONS · 3 LAPS</span>
+        <h1>VECTOR<br><i>RACING</i></h1>
+        <p>도로를 읽고, 한 틱 앞을 결정하세요. 0~90m 전방의 중심선·곡률·권장 속도를 받아 가속, 브레이크, 5단계 조향을 조합하는 고정 시간 레이싱 아레나입니다.</p>
+      </div>
+      <aside class="hero-note">
+        <b>SIMULATION CLOCK</b>
+        <strong>15<small> TPS</small></strong>
+        <p>한 틱은 정확히 1/15초입니다. 느린 계산 때문에 물리 프레임을 건너뛰지 않습니다.</p>
+      </aside>
+    </header>
+
+    <section class="panel race-panel">
+      <div class="panel-head">
+        <div><span class="eyebrow">LIVE CIRCUIT</span><h2>트랙 세션</h2></div>
+        <span id="tickChip" class="turn-chip">TICK 0000 · 00:00.0</span>
+      </div>
+      <div class="control-row">
+        <button id="manualRace">직접 주행</button>
+        <button id="codeRace">내 AI 출전</button>
+        <button id="watchRace">AI 관전</button>
+        <button id="stopRace">세션 중지</button>
+        <label>라이벌 <select id="opponentSelect"></select></label>
+        <button id="newTrack" class="quiet">새 트랙</button>
+      </div>
+      <p id="raceStatus" class="status-line">직접 주행하거나 내 AI를 출전시키세요.</p>
+
+      <div class="circuit-layout">
+        <div class="canvas-wrap">
+          <canvas id="raceCanvas" width="800" height="640" aria-label="Vector Racing 트랙과 두 차량"></canvas>
+          <div class="canvas-legend"><span class="you-dot">YOU / P1</span><span class="rival-dot">RIVAL / P2</span></div>
+        </div>
+        <aside class="race-data">
+          <div class="driver-card you"><span>CAR P1</span><b id="p1Speed">0</b><small>KM/H</small><div class="lap-line"><em id="p1Lap">LAP 1 / 3</em><i id="p1Progress"></i></div><p id="p1Pose">중앙선 -7.0m · 헤딩 0.0°</p></div>
+          <div class="driver-card rival"><span>CAR P2</span><b id="p2Speed">0</b><small>KM/H</small><div class="lap-line"><em id="p2Lap">LAP 1 / 3</em><i id="p2Progress"></i></div><p id="p2Pose">중앙선 +7.0m · 헤딩 0.0°</p></div>
+          <section class="sensor-card">
+            <header><span>ROAD SENSOR / P1</span><b id="surfaceBadge">ASPHALT</b></header>
+            <div id="sensorBars" class="sensor-bars"></div>
+            <p id="edgeReadout">LEFT 17.0m · RIGHT 31.0m</p>
+          </section>
+          <div class="manual-pad" aria-label="직접 주행 터치 컨트롤">
+            <button data-control="left" aria-label="왼쪽 조향">↙</button>
+            <button data-control="accelerate" aria-label="가속">▲ 가속</button>
+            <button data-control="right" aria-label="오른쪽 조향">↘</button>
+            <button data-control="brake" aria-label="브레이크">▼ 브레이크</button>
+          </div>
+          <p class="key-hint">키보드: WASD 또는 방향키 · 터치 버튼 지원</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="lab-grid">
+      <article class="panel editor-wrap">
+        <span class="eyebrow">PROGRAM THE DRIVER</span>
+        <h2>내 주행 AI</h2>
+        <textarea id="editor" spellcheck="false" aria-label="Vector Racing 사용자 AI 코드"></textarea>
+        <div class="toolbar">
+          <button id="resetCode">예제 복원</button>
+          <button id="loadStrongCode">V5 압도 AI 불러오기</button>
+          <button id="copySpec">LLM 규격 복사</button>
+          <button id="testCode">1틱 검증</button>
+        </div>
+        <p class="limits">JavaScript · 50KB · 최대 500ms/틱 · 지속 격리 Worker · 동기 반환</p>
+        <p id="codeMessage" class="code-message"></p>
+      </article>
+
+      <article class="panel contract-panel">
+        <span class="eyebrow">SENSOR CONTRACT</span>
+        <h2>AI가 받는 도로 정보</h2>
+        <dl>
+          <div><dt>road.nearest</dt><dd>진행 거리, 중앙선 오프셋, 헤딩 오차</dd></div>
+          <div><dt>road.edgeDistance</dt><dd>차량에서 좌·우 도로 경계까지 거리</dd></div>
+          <div><dt>road.lookahead[8]</dt><dd>0·6·12·20·30·45·65·90m 전방 샘플</dd></div>
+          <div><dt>각 전방 샘플</dt><dd>중심 좌표, 방향, 곡률, 폭, 권장 속도</dd></div>
+          <div><dt>cars.P1 / P2</dt><dd>속도, 자세, 랩, 진행 거리, 코스 이탈 횟수</dd></div>
+          <div><dt>legalActions[15]</dt><dd>스로틀 3단계 × 조향 5단계</dd></div>
+        </dl>
+        <p class="contract-note">양쪽 차량은 충돌하지 않는 고스트 레이서입니다. 순수하게 도로 해석과 제어 품질을 비교합니다.</p>
+      </article>
+    </section>
+
+    <section class="panel battle-panel">
+      <div class="panel-head"><div><span class="eyebrow">FAIR CIRCUIT BENCHMARK</span><h2>공정 자동 대전</h2></div><span id="battleProgressText">0 / 0</span></div>
+      <div class="battle-controls">
+        <select id="battleOpponent"><option value="all">v1~v5 전체</option></select>
+        <select id="battleCount"><option>2</option><option>4</option><option>10</option></select>
+        <button id="runBattle">대전 시작</button>
+        <button id="stopBattle" disabled>중지</button>
+      </div>
+      <div class="score-strip"><div>승<b id="wins">0</b></div><div>무<b id="draws">0</b></div><div>패<b id="losses">0</b></div><div>오류<b id="errors">0</b></div></div>
+      <div class="battle-progress"><span id="battleProgressBar"></span></div>
+      <p class="fair-note">같은 시드로 좌·우 출발 위치와 P1·P2 역할을 바꿔 2경기씩 묶어 평가합니다.</p>
+      <div id="battleLogs" class="battle-logs"><p>완료된 경기의 결과·리플레이·JSON 로그가 표시됩니다.</p></div>
+    </section>
+
+    <section class="panel ai-list">
+      <span class="eyebrow">DRIVER EVOLUTION</span>
+      <h2>풀 스로틀에서 네온 챔피언까지</h2>
+      <div id="aiCards" class="ai-cards"></div>
+    </section>
+  </main>
+
+  <div id="resultModal" class="modal" hidden><div class="modal-card result-card"><span class="eyebrow">CHEQUERED FLAG</span><h2 id="resultTitle"></h2><p id="resultReason"></p><button id="closeResult">확인</button></div></div>
+  <div id="replayModal" class="modal" hidden><div class="modal-card replay-card"><div class="panel-head"><div><span class="eyebrow">RACE REPLAY</span><h2 id="replayTitle">경기 리플레이</h2></div><button id="closeReplay">닫기</button></div><canvas id="replayCanvas" width="800" height="640"></canvas><div class="replay-controls"><button id="replayToggle">재생</button><input id="replayRange" type="range" min="0" max="0" value="0"><span id="replayCounter">0 / 0</span></div></div></div>
+  <script src="browser-bundle.js?v=4"></script>
+</body>
+</html>

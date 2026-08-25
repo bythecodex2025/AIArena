@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="크레딧과 영향력으로 우주 유물을 낙찰받는 경매 전략 AI 게임 Starlight Auction">
+  <title>Starlight Auction · AI 경매 전략</title>
+  <link rel="stylesheet" href="styles.css?v=20260813-auction-v1">
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div><p>STARLIGHT AUCTION · 공개 경매 전략</p><h1>가치를 읽고, <span>가격을 설계하세요.</span></h1><small>8개의 우주 유물을 두고 입찰합니다. 높은 가치만 좇으면 자금이 마르고, 너무 아끼면 세트와 분야 다수를 빼앗깁니다.</small></div>
+      <a href="../">← AI ARENA</a>
+    </header>
+
+    <section class="rule-ribbon" aria-label="핵심 규칙">
+      <div><span>01</span><b>후원자 선택</b><small>세트 · 다수 · 잔여 자금 중 전략 결정</small></div>
+      <i>◆</i>
+      <div><span>02</span><b>가격 경쟁</b><small>1~3 인상 또는 영향력으로 할인 입찰</small></div>
+      <i>◆</i>
+      <div><span>03</span><b>8개 LOT 정산</b><small>유물 가치 + 컬렉션 + 남은 크레딧</small></div>
+    </section>
+
+    <section class="game-grid">
+      <article class="panel player-panel p2-panel">
+        <div class="player-head"><div><small>RIVAL HOUSE</small><h2 id="p2Label">상대 AI · P2</h2></div><strong><span id="p2Score">7</span> PT</strong></div>
+        <p id="p2Patron" class="patron-chip">후원자 미정</p>
+        <div class="resource-row"><span>크레딧 <b id="p2Credits">22</b></span><span>영향력 <b id="p2Favor">2</b></span></div>
+        <div id="p2Collection" class="collection"></div>
+      </article>
+
+      <article class="panel auction-panel">
+        <div class="auction-head"><div><small>NIGHT MARKET · LIVE</small><h2>오늘의 경매</h2></div><span id="turnChip" class="turn-chip">P1 · 후원자 선택</span></div>
+        <div class="lot-track"><i id="lotProgress"></i></div>
+        <div class="auction-stage">
+          <div class="preview-wrap"><span>NEXT</span><div id="nextLot" class="next-lot"></div></div>
+          <div id="currentLot" class="current-lot"></div>
+          <div class="bid-podium"><small>CURRENT OFFER</small><strong id="highBid">0</strong><span id="bidLeader">아직 입찰 없음</span></div>
+        </div>
+        <p id="auctionHint" class="auction-hint">후원자는 최종 점수 공식을 바꿉니다.</p>
+        <p id="gameStatus" class="game-status">사람 대 AI를 시작하고 먼저 후원자를 고르세요.</p>
+        <div id="actionGrid" class="action-grid"></div>
+        <div class="game-controls">
+          <button id="newGame" class="primary">사람 대 AI 시작</button>
+          <button id="watchAI">AI 경매 관전</button>
+          <button id="stopGame">중지</button>
+          <label>상대 AI <select id="humanOpponent"></select></label>
+        </div>
+      </article>
+
+      <article class="panel player-panel p1-panel">
+        <div class="player-head"><div><small>YOUR HOUSE</small><h2 id="p1Label">YOU · P1</h2></div><strong><span id="p1Score">7</span> PT</strong></div>
+        <p id="p1Patron" class="patron-chip">후원자 미정</p>
+        <div class="resource-row"><span>크레딧 <b id="p1Credits">22</b></span><span>영향력 <b id="p1Favor">2</b></span></div>
+        <div id="p1Collection" class="collection"></div>
+      </article>
+    </section>
+
+    <section class="lower-grid">
+      <article class="panel rules-panel">
+        <div class="section-head"><small>HOW TO WIN</small><h2>높은 가격이 아니라, 높은 효율</h2></div>
+        <div class="rule-list">
+          <div><b>1</b><p><strong>일반 입찰</strong>현재가보다 1~3 높은 가격을 제시합니다. 낙찰될 때만 크레딧을 냅니다.</p></div>
+          <div><b>2</b><p><strong>영향력 입찰</strong>토큰 1개를 쓰면 제시가보다 1 적게 지불합니다. 지더라도 토큰은 돌아오지 않습니다.</p></div>
+          <div><b>3</b><p><strong>세트와 분야 다수</strong>태양·달·초신성 3종 세트와 각 분야 단독 다수가 추가 점수를 만듭니다.</p></div>
+          <div><b>4</b><p><strong>유물 효과</strong>환급 유물은 +2 크레딧, 영향력 유물은 토큰 +1을 즉시 제공합니다.</p></div>
+          <div><b>5</b><p><strong>패스</strong>선두가 있으면 낙찰이 확정됩니다. 양쪽이 입찰 없이 패스하면 그 유물은 유찰됩니다.</p></div>
+        </div>
+        <div class="score-formula"><span>최종 점수</span><b>유물 기본 가치 + 3종 세트 + 분야별 다수 + 잔여 자금</b></div>
+        <div class="telemetry"><span>LAST AI SEARCH</span><div><b id="searchLevel">—</b><b id="searchNodes">0 nodes</b><b id="searchDepth">depth 0</b><b id="searchTime">0 ms</b></div></div>
+        <ol id="moveLog" class="move-log"><li>경기를 시작하면 입찰과 낙찰이 기록됩니다.</li></ol>
+      </article>
+
+      <article class="panel code-panel">
+        <div class="section-head"><small>BUILD YOUR BIDDER</small><h2>내 AI로 밤시장에 참가</h2><p><code>chooseAction(state, me)</code>가 현재 <code>legalActions</code> 중 하나를 반환하게 만드세요.</p></div>
+        <div class="editor-bar"><b id="editorFileName">my-auction-ai.js</b><span>JavaScript · 50KB · 500ms/행동</span></div>
+        <textarea id="editor" spellcheck="false" aria-label="Starlight Auction 사용자 AI 코드"></textarea>
+        <div class="editor-actions">
+          <input id="fileInput" type="file" accept=".js,.txt" hidden>
+          <button id="uploadCode">파일 불러오기</button>
+          <button id="resetCode">예제 복원</button>
+          <button id="copySpec">LLM 규격 복사</button>
+          <button id="testCode" class="primary">1행동 검증</button>
+        </div>
+        <p id="codeMessage" class="code-message">신뢰할 수 없는 코드나 비밀번호·토큰이 포함된 코드는 실행하지 마세요.</p>
+      </article>
+    </section>
+
+    <section class="panel battle-panel">
+      <div class="battle-head"><div><small>SEEDED BENCHMARK</small><h2>공정 자동 대전</h2><p>같은 시드를 P1·P2에 한 번씩 배정해 유물 순서까지 맞춥니다.</p></div><span>WORKER ISOLATED</span></div>
+      <div class="battle-layout">
+        <div>
+          <div class="battle-options">
+            <label>상대 AI<select id="battleOpponent"><option value="all">v1~v5 전체</option></select></label>
+            <label>상대별 경기 수<select id="battleCount"><option>2</option><option selected>4</option><option>10</option></select></label>
+          </div>
+          <div class="score-grid"><div><span>승</span><b id="wins">0</b></div><div><span>무</span><b id="draws">0</b></div><div><span>패</span><b id="losses">0</b></div><div><span>오류</span><b id="errors">0</b></div></div>
+          <div class="progress"><div><span>진행</span><b id="battleProgressText">0 / 0</b></div><i><b id="battleProgressBar"></b></i></div>
+          <div class="battle-buttons"><button id="runBattle" class="primary">대전 시작</button><button id="stopBattle" disabled>대전 중지</button></div>
+        </div>
+        <div>
+          <div class="table-wrap"><table><thead><tr><th>상대</th><th>승</th><th>무</th><th>패</th><th>오류</th></tr></thead><tbody id="battleRows"><tr><td colspan="5">대전을 시작하면 결과가 표시됩니다.</td></tr></tbody></table></div>
+          <div id="battleLogs" class="battle-logs"><p>완료된 경기의 로그와 리플레이가 여기에 표시됩니다.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-levels">
+      <div class="section-head"><small>AI EVOLUTION</small><h2>충동 입찰에서 시장 설계까지</h2></div>
+      <div class="level-grid">
+        <article><span>V1</span><b>무작위</b><p>합법 행동 중 임의 선택</p></article>
+        <article><span>V2</span><b>정적 가치</b><p>현재 유물과 가격 비교</p></article>
+        <article><span>V3</span><b>맞입찰</b><p>상대의 다음 응답 탐색</p></article>
+        <article><span>V4</span><b>알파베타</b><p>세트·다수 경쟁 4수 탐색</p></article>
+        <article><span>V5</span><b>반복 심화</b><p>다음 LOT과 자금 소진 계산</p></article>
+      </div>
+    </section>
+  </main>
+
+  <div id="resultModal" class="modal" hidden><div class="modal-card"><span id="resultIcon">✦</span><small>AUCTION CLOSED</small><h2 id="resultTitle">P1 승리</h2><p id="resultReason"></p><button id="closeResult" class="primary">확인</button></div></div>
+  <div id="replayModal" class="modal" hidden><div class="modal-card replay-card"><small>AUCTION REPLAY</small><h2 id="replayLabel">경기 시작</h2><div id="replayState"></div><div class="replay-controls"><button id="replayPrev">이전</button><span id="replayCounter">1 / 1</span><button id="replayNext">다음</button></div><button id="closeReplay">닫기</button></div></div>
+  <script type="module" src="app.js?v=20260813-auction-v1"></script>
+</body>
+</html>

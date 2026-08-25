@@ -1,0 +1,10 @@
+{
+  "name": "vector-racing-ai-arena",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build-browser-bundle.mjs",
+    "benchmark:strong": "node benchmark-strong.mjs",
+    "test": "node --test tests/*.test.js"
+  }
+}

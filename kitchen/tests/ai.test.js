@@ -1,0 +1,1 @@
+import test from "node:test";import assert from "node:assert/strict";import {initialState,legalActions} from "../engine.js";import {chooseAction} from "../ai.js";for(const level of ["v1","v2","v3","v4","v5"])test(`${level}은 합법 주방 행동을 고른다`,()=>{const s=initialState({seed:8,forceFirst:"P1"});const c=chooseAction(s,level);assert.ok(legalActions(s).some(a=>a.id===c.action.id))});
