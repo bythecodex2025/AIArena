@@ -948,7 +948,7 @@ function loadStrongCode() {
 }
 
 async function copySpec() {
-  try { await navigator.clipboard.writeText(SPEC); setCodeMessage("전체 AI 규격을 복사했습니다.", "ok"); }
+  try { await navigator.clipboard.writeText(SPEC); setCodeMessage("프롬프트를 복사했습니다.", "ok"); }
   catch { setCodeMessage("클립보드 복사에 실패했습니다.", "error"); }
 }
 
