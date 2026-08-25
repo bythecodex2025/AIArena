@@ -78,7 +78,7 @@ AI가 볼 수 있는 정보는 하나의 공개 상태 객체에 모두 들어 �
 
 ## 4. 표준 AI 계약
 
-새 예제 게임은 다음 공통 이름을 사용하는 것을 권장한다. 기존 동물장기의 `chooseMove`는 호환성을 위해 유지할 수 있지만, 신규 게임은 `chooseAction`으로 통일한다.
+새 예제 게임의 AI 함수는 `chooseAction(state, me)`로 통일한다.
 
 ```javascript
 function chooseAction(state, me) {
@@ -248,22 +248,7 @@ AIArena의 현재 기준값은 다음과 같다.
 
 ## 8. 현재 예제 게임의 실제 속성
 
-### 8.1 동물장기 (`/animal/`)
-
-| 항목 | 현재 구현 |
-|---|---|
-| AI 함수 | `chooseMove(state, me)` |
-| 공개 상태 | `board`, `hands`, `turn`, `ply`, `legalMoves` |
-| 보드 | 3×4, 길이 12의 1차원 배열 |
-| 말 | `{ owner, type }`; `lion`, `giraffe`, `elephant`, `chick`, `hen` |
-| 행동 | `{ type:"move", from, to }`, `{ type:"drop", piece, to }` |
-| 승리 | 라이온 포획 또는 트라이 성공 |
-| 무승부 | 같은 국면 3회 반복, 대전 시 최대 240반수 |
-| 실행 제한 | 코드 50KB, 한 수 500ms, Web Worker |
-| 검증 | 상태 복제·동결, 제한 API 차단, 합법 수 재검증 |
-| 평가 | v1~v5, 상대별 선·후공 동일 배정, 경기별 로그 |
-
-### 8.2 ClashCard (`/card/`)
+### 8.1 ClashCard (`/card/`)
 
 | 항목 | 현재 구현 |
 |---|---|
@@ -340,5 +325,5 @@ AIArena의 현재 기준값은 다음과 같다.
 ---
 
 문서 버전: 1.0  
-기준 구현: AIArena `/animal/`, `/card/`  
+기준 구현: AIArena `/card/`  
 작성일: 2026-08-13
