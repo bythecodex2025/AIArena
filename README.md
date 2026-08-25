@@ -5,5 +5,6 @@
 - `/animal/` — 동물장기 AI 연구실
 - `/card/` — ClashCard
 - `/clashcard/` — `/card/` 별칭
+- [오목 AI Arena](https://proudius.github.io/gomoku-ai-prototype/) — 15×15 기본 오목·9×9 랜덤 스코어 AI 게임
 
 공개 주소: <https://proudius.github.io/AIArena/>
